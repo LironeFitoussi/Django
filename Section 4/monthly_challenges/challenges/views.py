@@ -19,23 +19,15 @@ month_challenges = {
     "september": "Write a journal entry every day!",
     "october": "Declutter one area of your home each week!",
     "november": "Volunteer for a local cause or charity!",
-    "december": "Reflect on your year and set goals for the next year!",
+    "december": None,
 }
 
 
 def index(request):
-    list_items = ""
-    for month in month_challenges.keys():
-        capitalized_month = month.capitalize()
-        month_path = reverse("month-challenge", args=[month])
-        list_items += f"<li><a href=\"{month_path}\">{capitalized_month}</a></li>"
-        #<li><a href="/challenges/january">January</a>...etc</li>
-    response_data = f"""
-        <ul>
-            {list_items}
-        </ul>
-    """
-    return HttpResponse(response_data)
+    
+    return render(request, "challenges/index.html", {
+        "month_challenges": list(month_challenges.keys())
+    })
 
 
 # Dynamic Parameter
