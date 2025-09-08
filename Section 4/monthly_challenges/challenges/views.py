@@ -2,9 +2,10 @@ from django.http import (
     HttpResponse,
     HttpResponseNotFound,
     HttpResponseRedirect,
-    response,
 )
 from django.urls import reverse
+from django.template.loader import render_to_string
+from django.shortcuts import render
 
 month_challenges = {
     "january": "Eat no meat for the entire month!",
@@ -28,6 +29,7 @@ def index(request):
         capitalized_month = month.capitalize()
         month_path = reverse("month-challenge", args=[month])
         list_items += f"<li><a href=\"{month_path}\">{capitalized_month}</a></li>"
+        #<li><a href="/challenges/january">January</a>...etc</li>
     response_data = f"""
         <ul>
             {list_items}
@@ -41,7 +43,11 @@ def month_challenge(request, month):
     try:
         # print(month_challenges)
         challenge_text = month_challenges[month]
-        response_data = f"<h1>{challenge_text}</h1>"
+        # response_data = f"<h1>{challenge_text}</h1>"
+        response_data = render(request, "challenges/challenge.html", {
+            "text": challenge_text,
+            "month_name": month
+        })
         return HttpResponse(response_data)
     except:
         return HttpResponseNotFound("<h1>Invalid month!</h1>")
