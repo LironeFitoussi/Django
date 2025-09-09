@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Something went wrong - We could not find that page!
+{% endblock %}
+
+{% block content %}
+    <h1>We could not find that page!</h1>
+    <p>But don't worry, you can find other things on our homepage.</p>
+    <p><a href="{% url "index" %}">Homepage</a></p>
+{% endblock %}

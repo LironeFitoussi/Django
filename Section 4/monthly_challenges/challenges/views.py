@@ -1,7 +1,8 @@
 from django.http import (
     HttpResponse,
-    HttpResponseNotFound,
+    HttpResponseNotFound,   
     HttpResponseRedirect,
+    Http404,
 )
 from django.urls import reverse
 from django.template.loader import render_to_string
@@ -24,7 +25,6 @@ month_challenges = {
 
 
 def index(request):
-    
     return render(request, "challenges/index.html", {
         "month_challenges": list(month_challenges.keys())
     })
@@ -55,4 +55,4 @@ def month_challenge_by_number(request, month):
         )  # /challenges/january
         return HttpResponseRedirect(redirect_path)
     except:
-        return HttpResponseNotFound("Invalid month!")
+        raise Http404()
